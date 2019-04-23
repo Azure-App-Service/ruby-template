@@ -1,7 +1,7 @@
 FROM buildpack-deps:jessie-curl
 LABEL maintainer="Azure App Services Container Images <appsvc-images@microsoft.com>"
 
-RUN export RUBY_VERSION="2.6.2"
+ENV RUBY_VERSION="2.6.2"
 
 RUN echo "deb http://deb.debian.org/debian/ jessie main" > /etc/apt/sources.list \
  && echo "deb-src http://deb.debian.org/debian/ jessie main" >> /etc/apt/sources.list \
@@ -21,22 +21,24 @@ RUN apt-get install -y libreadline-dev bzip2 build-essential libssl-dev zlib1g-d
   libxml2-dev libmysqlclient-dev --no-install-recommends
 
 # rbenv 
-RUN git clone https://github.com/rbenv/rbenv.git /usr/local/.rbenv
-RUN chmod -R 777 /usr/local/.rbenv
-
 ENV RBENV_ROOT="/usr/local/.rbenv"
+RUN git clone https://github.com/rbenv/rbenv.git $RBENV_ROOT
+RUN chmod -R 777 $RBENV_ROOT
 
 ENV PATH="$RBENV_ROOT/bin:/usr/local:$PATH"
 
-RUN git clone https://github.com/rbenv/ruby-build.git /usr/local/.rbenv/plugins/ruby-build
-RUN chmod -R 777 /usr/local/.rbenv/plugins/ruby-build
+RUN git clone https://github.com/rbenv/ruby-build.git $RBENV_ROOT/plugins/ruby-build
+RUN chmod -R 777 $RBENV_ROOT/plugins/ruby-build
 
-RUN /usr/local/.rbenv/plugins/ruby-build/install.sh
+RUN $RBENV_ROOT/plugins/ruby-build/install.sh
 
 # Install ruby 2.6.2
 ENV RUBY_CONFIGURE_OPTS=--disable-install-doc
 
 ENV RUBY_CFLAGS=-O3
+
+RUN cd $RBENV_ROOT \
+  && git pull
 
 RUN eval "$(rbenv init -)" \
   && rbenv install $RUBY_VERSION \
@@ -44,8 +46,8 @@ RUN eval "$(rbenv init -)" \
   && rbenv global $RUBY_VERSION \
   && ls /usr/local -a \
   && gem install bundler --version "=1.13.6"\
-  && chmod -R 777 /usr/local/.rbenv/versions \
-  && chmod -R 777 /usr/local/.rbenv/version
+  && chmod -R 777 $RBENV_ROOT/versions \
+  && chmod -R 777 $RBENV_ROOT/version
 
 RUN eval "$(rbenv init -)" \
   && rbenv global $RUBY_VERSION \
