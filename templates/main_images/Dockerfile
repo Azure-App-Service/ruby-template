@@ -32,7 +32,7 @@ ENV PATH ${PATH}:/home/site/wwwroot
 # install libssl1.0.2
 RUN wget http://ftp.us.debian.org/debian/pool/main/o/openssl1.0/libssl1.0.2_1.0.2r-1~deb9u1_amd64.deb \
   && apt-get install dialog \
-  && dpkg -i libssl1.0.2_1.0.2q-1~deb9u1_amd64.deb
+  && dpkg -i libssl1.0.2_1.0.2r-1~deb9u1_amd64.deb
 
 WORKDIR /home/site/wwwroot
 
