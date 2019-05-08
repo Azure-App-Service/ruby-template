@@ -1,3 +1,3 @@
 # ruby-template
 
-All ruby images use same tempalte
+All ruby images use the same template
