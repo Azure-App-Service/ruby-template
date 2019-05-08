@@ -1,4 +1,4 @@
-FROM appsvc/rubybase:2.6.2
+FROM ${TAG}
 LABEL maintainer="Azure App Services Container Images <appsvc-images@microsoft.com>"
 
 RUN export RUBY_VERSION="2.6.2"
