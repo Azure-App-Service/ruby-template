@@ -1,3 +1,7 @@
-# ruby-template
+# Azure App Service Linux Ruby image templates
 
-All ruby images use the same template
+These are the templates used to the Ruby images
+
+Realized Dockerfiles are at: https://github.com/azure-app-service/ruby
+
+First build the base image, then build the main image

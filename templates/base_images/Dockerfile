@@ -1,4 +1,4 @@
-FROM buildpack-deps:jessie-curl
+FROM ${TAG}
 LABEL maintainer="Azure App Services Container Images <appsvc-images@microsoft.com>"
 
 ENV RUBY_VERSION="2.6.2"
