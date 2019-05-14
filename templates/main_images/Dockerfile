@@ -1,7 +1,7 @@
 FROM ${TAG}
 LABEL maintainer="Azure App Services Container Images <appsvc-images@microsoft.com>"
 
-RUN export RUBY_VERSION="2.6.2"
+RUN export RUBY_VERSION=${version}
 
 COPY init_container.sh /bin/
 COPY startup.sh /opt/
