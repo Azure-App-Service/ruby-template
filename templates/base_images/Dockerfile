@@ -45,7 +45,9 @@ RUN eval "$(rbenv init -)" \
   && rbenv rehash \
   && rbenv global $RUBY_VERSION \
   && ls /usr/local -a \
+  && gem update --system \
   && gem install bundler --version "=1.13.6" \
+  && gem install bundler --version "=2.0" \
   && chmod -R 777 $RBENV_ROOT/versions \
   && chmod -R 777 $RBENV_ROOT/version
 
