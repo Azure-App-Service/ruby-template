@@ -18,7 +18,7 @@ RUN apt-get install -y git --no-install-recommends
 RUN apt-get install -y libreadline-dev bzip2 build-essential libssl-dev zlib1g-dev libpq-dev libsqlite3-dev \
   curl patch gawk g++ gcc make libc6-dev patch libreadline6-dev libyaml-dev sqlite3 autoconf \
   libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev bison libxslt-dev \
-  libxml2-dev libmysqlclient-dev --no-install-recommends
+  libxml2-dev libmysqlclient-dev --no-install-recommends wget
 
 # rbenv 
 ENV RBENV_ROOT="/usr/local/.rbenv"
@@ -32,7 +32,7 @@ RUN chmod -R 777 $RBENV_ROOT/plugins/ruby-build
 
 RUN $RBENV_ROOT/plugins/ruby-build/install.sh
 
-# Install ruby 2.6.2
+# Install ruby 
 ENV RUBY_CONFIGURE_OPTS=--disable-install-doc
 
 ENV RUBY_CFLAGS=-O3
@@ -45,7 +45,7 @@ RUN eval "$(rbenv init -)" \
   && rbenv rehash \
   && rbenv global $RUBY_VERSION \
   && ls /usr/local -a \
-  && gem install bundler --version "=1.13.6"\
+  && gem install bundler --version "=1.13.6" \
   && chmod -R 777 $RBENV_ROOT/versions \
   && chmod -R 777 $RBENV_ROOT/version
 
@@ -57,7 +57,18 @@ RUN eval "$(rbenv init -)" \
 ENV NOKOGIRI_USE_SYSTEM_LIBRARIES=true
 
 # SQL Server gem support
-RUN apt-get install -y unixodbc-dev freetds-dev freetds-bin
+RUN apt-get install -y unixodbc-dev
+
+# find latest version of FreeTDS ftp://ftp.freetds.org/pub/freetds/stable/
+ENV FREETDS_VERSION=1.1.16
+RUN wget ftp://ftp.freetds.org/pub/freetds/stable/freetds-$FREETDS_VERSION.tar.gz\
+  && tar -xzf freetds-$FREETDS_VERSION.tar.gz \
+  && cd freetds-$FREETDS_VERSION \
+  && ./configure --prefix=/usr/local --with-tdsver=7.3 \
+  && sudo make \
+  && sudo make install \
+  && cd .. \
+  && rm freetds-$FREETDS_VERSION.tar.gz
 
 # Make temp directory for ruby images
 RUN mkdir -p /tmp/bundle
