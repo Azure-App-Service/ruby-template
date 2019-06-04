@@ -65,21 +65,20 @@ def buildImage(br, code):
             exit(1)
 
 
-# parser = argparse.ArgumentParser()
-# parser.add_argument('--stack', help='stack')
-# parser.add_argument('--branch', help='branch')
-# parser.add_argument('--code', help='code')
-# args = parser.parse_args()
-# 
-# stack = args.stack
-# branch = args.branch
-# code = args.code
+parser = argparse.ArgumentParser()
+parser.add_argument('--code', help='code')
+parser.add_argument('--pull', help='pull')
+args = parser.parse_args()
 
+code = args.code
+#f = open("secret.txt", "r")
+#code = f.read()
+pull = args.pull
 stack = "ruby"
 branch = "dev"
-f = open("secret.txt", "r")
-code = f.read()
+
 print(code)
+print(pull)
 
 buildRequests = getConfig(branch, stack)
 for br in json.loads(buildRequests):
