@@ -11,6 +11,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: python3 runTest.py --code $SecretCode --pull $system.pullRequest.pullRequestNumber
+- script: python3 runTest.py --code $(SecretCode) --pull $(system.pullRequest.pullRequestNumber)
   timeoutInMinutes: 180
   displayName: 'Running test'
