@@ -11,5 +11,5 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo $system.pullRequest.pullRequestNumber
-- script: echo $SecretCode
+- script: echo $"system.pullRequest.pullRequestNumber"
+- script: echo $"SecretCode"
