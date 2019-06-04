@@ -6,7 +6,7 @@ import threading
 
 
 def getConfig(branch, stack):
-    url = f"https://raw.githubusercontent.com/Azure-App-Service/blessedimagepipelineconfig/{branch}/{stack}.json"
+    url = "https://raw.githubusercontent.com/Azure-App-Service/blessedimagepipelineconfig/" + branch + "/" + stack + ".json"
     headers = {
         'cache-control': "no-cache",
         'Postman-Token': "8025abcb-297a-4f9b-b1df-50b3338d7722"
