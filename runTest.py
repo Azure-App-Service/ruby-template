@@ -14,6 +14,7 @@ def getConfig(branch, stack):
     response = requests.request("GET", url, headers=headers)
     return response.content
 
+
 def triggerBuild(buildRequests, code):
     url = "https://appsvcbuildfunc-test.azurewebsites.net/api/HttpBuildPipeline_HttpStart"
     querystring = {"code": code}
@@ -25,8 +26,10 @@ def triggerBuild(buildRequests, code):
     response = requests.request("POST", url, data=payload, headers=headers, params=querystring)
     return response.content
 
+
 def getStatusQueryGetUri(jsonResponse):
     return json.loads(jsonResponse)["statusQueryGetUri"]
+
 
 def pollPipeline(statusQueryGetUri):
     url = statusQueryGetUri
@@ -35,6 +38,7 @@ def pollPipeline(statusQueryGetUri):
         }
     response = requests.request("GET", url, headers=headers)
     return response.content
+
 
 def buildImage(br, code):
     statusQueryGetUri = getStatusQueryGetUri(triggerBuild(br, code))
@@ -59,6 +63,7 @@ def buildImage(br, code):
             print("failed on")
             print(br)
             exit(1)
+
 
 # parser = argparse.ArgumentParser()
 # parser.add_argument('--stack', help='stack')

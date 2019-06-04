@@ -11,6 +11,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: python runTest.py
+- script: python3 runTest.py
   timeoutInMinutes: 180
   displayName: 'Running test'
