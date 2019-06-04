@@ -5,11 +5,16 @@
 
 trigger:
 - master
+<<<<<<< HEAD
+=======
+- dev
+>>>>>>> 8aa3f426aed13664e662b940455bbaaadfaa0b18
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+<<<<<<< HEAD
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
 
@@ -17,3 +22,8 @@ steps:
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
+=======
+- script: python3 runTest.py
+  timeoutInMinutes: 180
+  displayName: 'Running test'
+>>>>>>> 8aa3f426aed13664e662b940455bbaaadfaa0b18
