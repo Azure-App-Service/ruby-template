@@ -5,13 +5,9 @@ import time
 import threading
 
 
-def getConfig(branch, stack):
-    url = "https://raw.githubusercontent.com/Azure-App-Service/blessedimagepipelineconfig/" + branch + "/" + stack + ".json"
-    headers = {
-        'cache-control': "no-cache"
-        }
-    response = requests.request("GET", url, headers=headers)
-    return response.content.decode('utf-8')
+def getConfig():
+    f = open("blessedImageConfig.json", "r")
+    return f.read()
 
 
 def appendPR(buildRequest, pullRepo, pullId):
@@ -19,6 +15,7 @@ def appendPR(buildRequest, pullRepo, pullId):
         buildRequest.update( { "pullRepo": pullRepo } )
         buildRequest.update( { "pullId": pullId } )
     return buildRequest
+
 
 def triggerBuild(buildRequests, code):
     url = "https://appsvcbuildfunc-test.azurewebsites.net/api/HttpBuildPipeline_HttpStart"
@@ -46,29 +43,43 @@ def pollPipeline(statusQueryGetUri):
 
 
 def buildImage(br, code):
-    statusQueryGetUri = getStatusQueryGetUri(triggerBuild(br, code))
-    while True:
-        content = pollPipeline(statusQueryGetUri)
-        runtimeStatus = json.loads(content)["runtimeStatus"]
-        if runtimeStatus == "Completed":
-            output = json.loads(content)["output"]
-            status = json.loads(output)["status"]
-            if (status == "success"):
-                print("pass")
-                break
+    tries = 0
+    success = False
+    while tries < 3:
+        tries = tries + 1
+        statusQueryGetUri = getStatusQueryGetUri(triggerBuild(br, code))
+        while True:
+            content = pollPipeline(statusQueryGetUri)
+            runtimeStatus = json.loads(content)["runtimeStatus"]
+            if runtimeStatus == "Completed":
+                output = json.loads(content)["output"]
+                status = json.loads(output)["status"]
+                if (status == "success"):
+                    print("pass")
+                    success = True
+                    break
+                else:
+                    print("failed on")
+                    print(br)
+                    break
+            elif runtimeStatus == "Running":
+                print("running")
+                time.sleep(60)
+                continue
             else:
                 print("failed on")
                 print(br)
-                exit(1)
-        elif runtimeStatus == "Running":
-            print("running")
+                break
+        if success:
+            exit(0)
+        else:
+            print("trying again")
             time.sleep(60)
             continue
-        else:
-            print("failed on")
-            print(br)
-            exit(1)
-
+    if success:
+        exit(0)
+    else:
+        exit(1)
 
 
 parser = argparse.ArgumentParser()
@@ -78,17 +89,11 @@ parser.add_argument('--pullRepo', help='pullRepo')
 args = parser.parse_args()
 
 code = args.code
-# f = open("secret.txt", "r")
-# code = f.read()
 pullId = args.pullId
 pullRepo = args.pullRepo
-# pullId = "7"
-# pullRepo = "https://github.com/Azure-App-Service/ruby-template.git"
-stack = "ruby"
-branch = "dev"
 
 threads = []
-buildRequests = getConfig(branch, stack)
+buildRequests = getConfig()
 for br in json.loads(buildRequests):
     br = appendPR(br, pullRepo, pullId)
     print(br)
