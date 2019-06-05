@@ -11,7 +11,7 @@ def getConfig(branch, stack):
         'cache-control': "no-cache"
         }
     response = requests.request("GET", url, headers=headers)
-    return response.content
+    return response.content.decode('utf-8')
 
 
 def appendPR(buildRequest, pullRepo, pullId):
@@ -29,7 +29,7 @@ def triggerBuild(buildRequests, code):
         'cache-control': "no-cache"
         }
     response = requests.request("POST", url, data=payload, headers=headers, params=querystring)
-    return response.content
+    return response.content.decode('utf-8')
 
 
 def getStatusQueryGetUri(jsonResponse):
@@ -42,7 +42,7 @@ def pollPipeline(statusQueryGetUri):
         'cache-control': "no-cache"
         }
     response = requests.request("GET", url, headers=headers)
-    return response.content
+    return response.content.decode('utf-8')
 
 
 def buildImage(br, code):
