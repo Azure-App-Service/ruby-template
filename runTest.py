@@ -56,6 +56,7 @@ def buildImage(br, code):
                 status = json.loads(output)["status"]
                 if (status == "success"):
                     print("pass")
+                    print(br)
                     success = True
                     break
                 else:
@@ -108,4 +109,3 @@ for t in threads:
 
 print("done")
 exit(0)
-
