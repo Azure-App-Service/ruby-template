@@ -70,19 +70,18 @@ def buildImage(br, code):
             exit(1)
 
 
-# parser = argparse.ArgumentParser()
-# parser.add_argument('--code', help='code')
-# parser.add_argument('--pullId', help='pullId')
-# parser.add_argument('--pullRepo', help='pullRepo')
-# args = parser.parse_args()
 
-# code = args.code
-f = open("secret.txt", "r")
-code = f.read()
-# pullId = args.pullId
-# pullRepo = args.pullRepo
-pullId = "7"
-pullRepo = "https://github.com/Azure-App-Service/ruby-template.git"
+parser = argparse.ArgumentParser()
+parser.add_argument('--code', help='code')
+parser.add_argument('--pullId', help='pullId')
+parser.add_argument('--pullRepo', help='pullRepo')
+args = parser.parse_args()
+
+code = args.code
+# f = open("secret.txt", "r")
+# code = f.read()
+pullId = args.pullId
+pullRepo = args.pullRepo
 stack = "ruby"
 branch = "dev"
 
