@@ -8,12 +8,18 @@ import threading
 def getConfig(branch, stack):
     url = "https://raw.githubusercontent.com/Azure-App-Service/blessedimagepipelineconfig/" + branch + "/" + stack + ".json"
     headers = {
-        'cache-control': "no-cache",
-        'Postman-Token': "8025abcb-297a-4f9b-b1df-50b3338d7722"
+        'cache-control': "no-cache"
         }
     response = requests.request("GET", url, headers=headers)
     return response.content
 
+
+def appendPR(buildRequest, pullRepo, pullId):
+    if (pullRepo != False):
+        buildRequest.update( { "pullRepo": pullRepo } )
+        buildRequest.update( { "pullId": pullId } )
+    print(buildRequest)
+    return buildRequest
 
 def triggerBuild(buildRequests, code):
     url = "https://appsvcbuildfunc-test.azurewebsites.net/api/HttpBuildPipeline_HttpStart"
@@ -44,7 +50,6 @@ def buildImage(br, code):
     statusQueryGetUri = getStatusQueryGetUri(triggerBuild(br, code))
     while True:
         content = pollPipeline(statusQueryGetUri)
-        print(content)
         runtimeStatus = json.loads(content)["runtimeStatus"]
         if runtimeStatus == "Completed":
             output = json.loads(content)["output"]
@@ -66,23 +71,24 @@ def buildImage(br, code):
 
 
 # parser = argparse.ArgumentParser()
-# parser.add_argument('--stack', help='stack')
-# parser.add_argument('--branch', help='branch')
 # parser.add_argument('--code', help='code')
+# parser.add_argument('--pullId', help='pullId')
+# parser.add_argument('--pullRepo', help='pullRepo')
 # args = parser.parse_args()
-# 
-# stack = args.stack
-# branch = args.branch
-# code = args.code
 
-stack = "ruby"
-branch = "dev"
+# code = args.code
 f = open("secret.txt", "r")
 code = f.read()
-print(code)
+# pullId = args.pullId
+# pullRepo = args.pullRepo
+pullId = "7"
+pullRepo = "https://github.com/Azure-App-Service/ruby-template.git"
+stack = "ruby"
+branch = "dev"
 
 buildRequests = getConfig(branch, stack)
 for br in json.loads(buildRequests):
+    br = appendPR(br, pullRepo, pullId)
     t = threading.Thread(target=buildImage, args=((json.dumps(br), code)))
     t.start()
     t.join()
@@ -90,3 +96,4 @@ for br in json.loads(buildRequests):
 
 print("done")
 exit(0)
+
