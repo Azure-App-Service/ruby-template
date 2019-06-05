@@ -87,14 +87,19 @@ pullRepo = args.pullRepo
 stack = "ruby"
 branch = "dev"
 
+threads = []
 buildRequests = getConfig(branch, stack)
 for br in json.loads(buildRequests):
     br = appendPR(br, pullRepo, pullId)
     print(br)
     t = threading.Thread(target=buildImage, args=((json.dumps(br), code)))
+    threads.append(t)
     t.start()
-    t.join()
     time.sleep(60)
+
+# Wait for all of them to finish
+for t in threads:
+    t.join()
 
 print("done")
 exit(0)
