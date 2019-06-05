@@ -18,7 +18,6 @@ def appendPR(buildRequest, pullRepo, pullId):
     if (pullRepo != False):
         buildRequest.update( { "pullRepo": pullRepo } )
         buildRequest.update( { "pullId": pullId } )
-    print(buildRequest)
     return buildRequest
 
 def triggerBuild(buildRequests, code):
@@ -62,6 +61,7 @@ def buildImage(br, code):
                 print(br)
                 exit(1)
         elif runtimeStatus == "Running":
+            print("running")
             time.sleep(60)
             continue
         else:
@@ -82,12 +82,15 @@ code = args.code
 # code = f.read()
 pullId = args.pullId
 pullRepo = args.pullRepo
+# pullId = "7"
+# pullRepo = "https://github.com/Azure-App-Service/ruby-template.git"
 stack = "ruby"
 branch = "dev"
 
 buildRequests = getConfig(branch, stack)
 for br in json.loads(buildRequests):
     br = appendPR(br, pullRepo, pullId)
+    print(br)
     t = threading.Thread(target=buildImage, args=((json.dumps(br), code)))
     t.start()
     t.join()
