@@ -12,9 +12,15 @@ pool:
 
 steps:
 - script: |
-    python3 runTest.py \
-      --code $(SecretCode) \
-      --pullRepo $(system.pullRequest.sourceRepositoryUri) \
-      --pullId $(system.pullRequest.pullRequestNumber)
+    if [ -z "$(system.pullRequest.sourceRepositoryUri)" ] 
+    then 
+      python3 runTest.py \
+        --code $(SecretCode)
+    else
+      python3 runTest.py \
+        --code $(SecretCode) \
+        --pullRepo $(system.pullRequest.sourceRepositoryUri) \
+        --pullId $(system.pullRequest.pullRequestNumber)
+    fi
   timeoutInMinutes: 180
   displayName: 'Running test'
