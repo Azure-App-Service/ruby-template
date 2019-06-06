@@ -1,0 +1,46 @@
+[
+    {
+        "stack": "ruby",
+        "version": "2.3.8",
+        "templateRepoURL": "https://github.com/Azure-App-Service/ruby-template.git",
+        "templateRepoBranchName": "dev",
+        "outputImageName": "ruby:save-2.3.8",
+        "outputRepoURL": "https://github.com/blessedimagepipeline/ruby-2.3.8.git",
+        "outputRepoBranchName": "save",
+        "webAppName": "appsvcbuild-ruby-2-3-8-save",
+        "saveArtifacts": true
+    },
+    {
+        "stack": "ruby",
+        "version": "2.4.5",
+        "templateRepoURL": "https://github.com/Azure-App-Service/ruby-template.git",
+        "templateRepoBranchName": "dev",
+        "outputImageName": "ruby:save-2.4.5",
+        "outputRepoURL": "https://github.com/blessedimagepipeline/ruby-2-4-5.git",
+        "outputRepoBranchName": "save",
+        "webAppName": "appsvcbuild-ruby-2-4-5-save",
+        "saveArtifacts": true
+    },
+    {
+        "stack": "ruby",
+        "version": "2.5.5",
+        "templateRepoURL": "https://github.com/Azure-App-Service/ruby-template.git",
+        "templateRepoBranchName": "dev",
+        "outputImageName": "ruby:save-2.5.5",
+        "outputRepoURL": "https://github.com/blessedimagepipeline/ruby-2.5.5.git",
+        "outputRepoBranchName": "save",
+        "webAppName": "appsvcbuild-ruby-2-5-5-save",
+        "saveArtifacts": true
+    },
+    {
+        "stack": "ruby",
+        "version": "2.6.2",
+        "templateRepoURL": "https://github.com/Azure-App-Service/ruby-template.git",
+        "templateRepoBranchName": "dev",
+        "outputImageName": "ruby:save-2.6.2",
+        "outputRepoURL": "https://github.com/blessedimagepipeline/ruby-2.6.2.git",
+        "outputRepoBranchName": "save",
+        "webAppName": "appsvcbuild-ruby-2-6-2-save",
+        "saveArtifacts": true
+    }
+]
