@@ -17,7 +17,11 @@
         "templateRepoURL": "https://github.com/Azure-App-Service/ruby-template.git",
         "templateRepoBranchName": "dev",
         "outputImageName": "ruby:dev-2.4.5",
+<<<<<<< HEAD
         "outputRepoURL": "https://github.com/blessedimagepipeline/ruby-2.4.5.git",
+=======
+        "outputRepoURL": "https://github.com/blessedimagepipeline/ruby-2-4-5.git",
+>>>>>>> Set up CI with Azure Pipelines (#7)
         "outputRepoBranchName": "dev",
         "webAppName": "blimp-ruby-2-4-5-dev",
         "saveArtifacts": true,
