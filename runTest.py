@@ -47,37 +47,40 @@ def buildImage(br, code):
     tries = 0
     success = False
     while tries < 1:
-        print("building")
-        print(br)
-        tries = tries + 1
-        statusQueryGetUri = getStatusQueryGetUri(triggerBuild(br, code))
-        print(statusQueryGetUri)
-        while True:
-            time.sleep(60)
-            content = pollPipeline(statusQueryGetUri)
-            runtimeStatus = content["runtimeStatus"]
-            if runtimeStatus == "Completed":
-                output = json.loads(content["output"], strict=False)
-                status = output["status"]
-                if (status == "success"):
-                    print("pass")
-                    success = True
-                    break
+        try:
+            tries = tries + 1
+            print("building")
+            print(br)
+            statusQueryGetUri = getStatusQueryGetUri(triggerBuild(br, code))
+            print(statusQueryGetUri)
+            while True:
+                time.sleep(60)
+                content = pollPipeline(statusQueryGetUri)
+                runtimeStatus = content["runtimeStatus"]
+                if runtimeStatus == "Completed":
+                    output = json.loads(content["output"], strict=False)
+                    status = output["status"]
+                    if (status == "success"):
+                        print("pass")
+                        success = True
+                        break
+                    else:
+                        print("failed on")
+                        break
+                elif runtimeStatus == "Running":
+                    print("running")
+                    continue
                 else:
                     print("failed on")
                     break
-            elif runtimeStatus == "Running":
-                print("running")
-                continue
-            else:
-                print("failed on")
+            if success:
                 break
-        if success:
-            break
-        else:
-            print("trying again")
-            print(br)
-            continue
+            else:
+                print("trying again")
+                print(br)
+                continue
+        except:
+            print(sys.exc_info())
     if success:
         sys.exit(0)
     else:
