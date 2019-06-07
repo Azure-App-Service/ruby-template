@@ -18,6 +18,13 @@ def appendPR(buildRequest, pullRepo, pullId):
     return buildRequest
 
 
+def appendOutputRepo(buildRequest, pullRepo, pullId):
+    if (pullRepo != False):
+        buildRequest.update( { "pullRepo": pullRepo } )
+        buildRequest.update( { "pullId": pullId } )
+    return buildRequest
+
+
 def triggerBuild(buildRequests, code):
     url = "https://appsvcbuildfunc-test.azurewebsites.net/api/HttpBuildPipeline_HttpStart"
     querystring = {"code": code}
@@ -43,7 +50,7 @@ def pollPipeline(statusQueryGetUri):
     return json.loads(response.content.decode('utf-8'), strict=False)
 
 
-def buildImage(br, code):
+def buildImage(br, code, results):
     tries = 0
     success = False
     while tries < 1:
