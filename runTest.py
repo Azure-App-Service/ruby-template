@@ -65,6 +65,7 @@ def buildImage(br, code, results):
                 content = pollPipeline(statusQueryGetUri)
                 runtimeStatus = content["runtimeStatus"]
                 if runtimeStatus == "Completed":
+                    print(content)
                     output = json.loads(content["output"].replace("\\", "/"), strict=False)
                     status = output["status"]
                     if (status == "success"):
