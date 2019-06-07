@@ -82,8 +82,10 @@ def buildImage(br, code):
         except:
             print(sys.exc_info())
     if success:
+        results.append(True)
         sys.exit(0)
     else:
+        results.append(False)
         sys.exit(1)
 
 
@@ -98,11 +100,12 @@ pullId = args.pullId
 pullRepo = args.pullRepo
 
 threads = []
+results = []
 buildRequests = getConfig()
 for br in buildRequests:
     br = appendPR(br, pullRepo, pullId)
     print(br)
-    t = threading.Thread(target=buildImage, args=((br, code)))
+    t = threading.Thread(target=buildImage, args=((br, code, results)))
     threads.append(t)
     t.start()
     time.sleep(60)
@@ -111,5 +114,10 @@ for br in buildRequests:
 for t in threads:
     t.join()
 
-print("done")
-exit(0)
+for r in results:
+    if r == False:
+        print("Failed")
+        sys.exit(1)
+
+print("Passed")
+sys.exit(0)
