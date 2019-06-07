@@ -3,11 +3,12 @@ import argparse
 import json
 import time
 import threading
+import sys
 
 
 def getConfig():
     f = open("blessedImageConfig.json", "r")
-    return f.read()
+    return json.loads(f.read())
 
 
 def appendPR(buildRequest, pullRepo, pullId):
@@ -20,17 +21,17 @@ def appendPR(buildRequest, pullRepo, pullId):
 def triggerBuild(buildRequests, code):
     url = "https://appsvcbuildfunc-test.azurewebsites.net/api/HttpBuildPipeline_HttpStart"
     querystring = {"code": code}
-    payload = buildRequests
+    payload = json.dumps(buildRequests)
     headers = {
         'Content-Type': "application/json",
         'cache-control': "no-cache"
         }
     response = requests.request("POST", url, data=payload, headers=headers, params=querystring)
-    return response.content.decode('utf-8')
+    return json.loads(response.content.decode('utf-8'))
 
 
 def getStatusQueryGetUri(jsonResponse):
-    return json.loads(jsonResponse)["statusQueryGetUri"]
+    return jsonResponse["statusQueryGetUri"]
 
 
 def pollPipeline(statusQueryGetUri):
@@ -39,48 +40,48 @@ def pollPipeline(statusQueryGetUri):
         'cache-control': "no-cache"
         }
     response = requests.request("GET", url, headers=headers)
-    return response.content.decode('utf-8')
+    return json.loads(response.content.decode('utf-8'))
 
 
 def buildImage(br, code):
     tries = 0
     success = False
-    while tries < 3:
+    while tries < 1:
+        print("building")
+        print(br)
         tries = tries + 1
         statusQueryGetUri = getStatusQueryGetUri(triggerBuild(br, code))
+        print(statusQueryGetUri)
         while True:
+            time.sleep(60)
             content = pollPipeline(statusQueryGetUri)
-            runtimeStatus = json.loads(content)["runtimeStatus"]
+            runtimeStatus = content["runtimeStatus"]
             if runtimeStatus == "Completed":
-                output = json.loads(content)["output"]
-                status = json.loads(output)["status"]
+                output = json.loads(content["output"], strict=False)
+                status = output["status"]
                 if (status == "success"):
                     print("pass")
-                    print(br)
                     success = True
                     break
                 else:
                     print("failed on")
-                    print(br)
                     break
             elif runtimeStatus == "Running":
                 print("running")
-                time.sleep(60)
                 continue
             else:
                 print("failed on")
-                print(br)
                 break
         if success:
-            exit(0)
+            break
         else:
             print("trying again")
-            time.sleep(60)
+            print(br)
             continue
     if success:
-        exit(0)
+        sys.exit(0)
     else:
-        exit(1)
+        sys.exit(1)
 
 
 parser = argparse.ArgumentParser()
@@ -95,10 +96,10 @@ pullRepo = args.pullRepo
 
 threads = []
 buildRequests = getConfig()
-for br in json.loads(buildRequests):
+for br in buildRequests:
     br = appendPR(br, pullRepo, pullId)
     print(br)
-    t = threading.Thread(target=buildImage, args=((json.dumps(br), code)))
+    t = threading.Thread(target=buildImage, args=((br, code)))
     threads.append(t)
     t.start()
     time.sleep(60)
