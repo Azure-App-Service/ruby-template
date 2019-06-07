@@ -8,7 +8,7 @@ import sys
 
 def getConfig():
     f = open("blessedImageConfig.json", "r")
-    return json.loads(f.read())
+    return json.loads(f.read(), strict=False)
 
 
 def appendPR(buildRequest, pullRepo, pullId):
@@ -27,7 +27,7 @@ def triggerBuild(buildRequests, code):
         'cache-control': "no-cache"
         }
     response = requests.request("POST", url, data=payload, headers=headers, params=querystring)
-    return json.loads(response.content.decode('utf-8'))
+    return json.loads(response.content.decode('utf-8'), strict=False)
 
 
 def getStatusQueryGetUri(jsonResponse):
@@ -40,7 +40,7 @@ def pollPipeline(statusQueryGetUri):
         'cache-control': "no-cache"
         }
     response = requests.request("GET", url, headers=headers)
-    return json.loads(response.content.decode('utf-8'))
+    return json.loads(response.content.decode('utf-8'), strict=False)
 
 
 def buildImage(br, code):
