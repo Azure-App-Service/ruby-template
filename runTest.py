@@ -106,8 +106,15 @@ args = parser.parse_args()
 
 config = args.config
 code = args.code
-pullId = args.pullId
 pullRepo = args.pullRepo
+pullId = args.pullId
+
+print("config")
+print(config)
+print("pullRepo")
+print(pullRepo)
+print("pullId")
+print(pullId)
 
 threads = []
 results = []
