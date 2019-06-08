@@ -7,7 +7,7 @@ import sys
 
 
 def getConfig():
-    f = open("blessedImageConfig.json", "r")
+    f = open(config, "r")
     return json.loads(f.read(), strict=False)
 
 
@@ -98,18 +98,20 @@ def buildImage(br, code, results):
 
 
 parser = argparse.ArgumentParser()
+parser.add_argument('--config', help='config file')
 parser.add_argument('--code', help='code')
 parser.add_argument('--pullId', help='pullId')
 parser.add_argument('--pullRepo', help='pullRepo')
 args = parser.parse_args()
 
+config = args.config
 code = args.code
 pullId = args.pullId
 pullRepo = args.pullRepo
 
 threads = []
 results = []
-buildRequests = getConfig()
+buildRequests = getConfig(config)
 for br in buildRequests:
     br = appendPR(br, pullRepo, pullId)
     print(br)
