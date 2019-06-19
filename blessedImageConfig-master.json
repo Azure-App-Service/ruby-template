@@ -7,7 +7,7 @@
         "outputImageName": "ruby:master-2.3.8",
         "outputRepoURL": "https://github.com/blessedimagepipeline/ruby-2.3.8.git",
         "outputRepoBranchName": "master",
-        "webAppName": "appsvcbuild-ruby-2-3-8-master",
+        "webAppName": "blimp-ruby-2-3-8-master",
         "saveArtifacts": true,
         "useCache": true
     },
@@ -19,7 +19,7 @@
         "outputImageName": "ruby:master-2.4.5",
         "outputRepoURL": "https://github.com/blessedimagepipeline/ruby-2.4.5.git",
         "outputRepoBranchName": "master",
-        "webAppName": "appsvcbuild-ruby-2-4-5-master",
+        "webAppName": "blimp-ruby-2-4-5-master",
         "saveArtifacts": true,
         "useCache": true
     },
@@ -31,7 +31,7 @@
         "outputImageName": "ruby:master-2.5.5",
         "outputRepoURL": "https://github.com/blessedimagepipeline/ruby-2.5.5.git",
         "outputRepoBranchName": "master",
-        "webAppName": "appsvcbuild-ruby-2-5-5-master",
+        "webAppName": "blimp-ruby-2-5-5-master",
         "saveArtifacts": true,
         "useCache": true
     },
@@ -43,7 +43,7 @@
         "outputImageName": "ruby:master-2.6.2",
         "outputRepoURL": "https://github.com/blessedimagepipeline/ruby-2.6.2.git",
         "outputRepoBranchName": "master",
-        "webAppName": "appsvcbuild-ruby-2-6-2-master",
+        "webAppName": "blimp-ruby-2-6-2-master",
         "saveArtifacts": true,
         "useCache": true
     }
