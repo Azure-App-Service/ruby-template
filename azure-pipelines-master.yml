@@ -16,11 +16,11 @@ jobs:
       if [ -z "$(system.pullRequest.sourceRepositoryUri)" ]
       then
         python3 runTest.py \
-          --config "blessedImageConfig-dev.json" \
+          --config "blessedImageConfig-master.json" \
           --code $(SecretCode)
       else
         python3 runTest.py \
-          --config "blessedImageConfig-dev.json" \
+          --config "blessedImageConfig-master.json" \
           --code $(SecretCode) \
           --pullRepo $(system.pullRequest.sourceRepositoryUri) \
           --pullId $(system.pullRequest.pullRequestNumber)
