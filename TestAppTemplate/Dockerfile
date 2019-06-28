@@ -3,6 +3,6 @@ LABEL maintainer="Azure App Services Container Images <appsvc-images@microsoft.c
 
 COPY app /home/site/wwwroot
 
-RUN bundle install \
- && rails server -b 0.0.0.0 -e "$RAILS_ENV" -p "$PORT"
+RUN cd /homw/site/wwwroot \
+ && bundle update
 
