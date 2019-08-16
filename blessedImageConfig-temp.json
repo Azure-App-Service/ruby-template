@@ -1,6 +1,14 @@
 [
     {
         "stack": "ruby",
+        "version": "2.3.3",
+        "templateRepoURL": "https://github.com/Azure-App-Service/ruby-template.git",
+        "templateRepoBranchName": "dev",
+        "saveArtifacts": false,
+        "useCache": true
+    },
+    {
+        "stack": "ruby",
         "version": "2.3.8",
         "templateRepoURL": "https://github.com/Azure-App-Service/ruby-template.git",
         "templateRepoBranchName": "dev",
