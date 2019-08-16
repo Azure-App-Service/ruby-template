@@ -1,6 +1,18 @@
 [
     {
         "stack": "ruby",
+        "version": "2.3.3",
+        "templateRepoURL": "https://github.com/Azure-App-Service/ruby-template.git",
+        "templateRepoBranchName": "master",
+        "outputImageName": "ruby:master-2.3.3",
+        "outputRepoURL": "https://github.com/blessedimagepipeline/ruby-2.3.3.git",
+        "outputRepoBranchName": "master",
+        "webAppName": "blimp-ruby-2-3-3-master",
+        "saveArtifacts": true,
+        "useCache": true
+    },
+    {
+        "stack": "ruby",
         "version": "2.3.8",
         "templateRepoURL": "https://github.com/Azure-App-Service/ruby-template.git",
         "templateRepoBranchName": "master",
