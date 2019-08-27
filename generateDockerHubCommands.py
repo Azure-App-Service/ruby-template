@@ -31,7 +31,7 @@ for br in buildRequests:
     print("docker pull blimpacr.azurecr.io/{}".format(br["outputImageName"]))
     print("docker tag blimpacr.azurecr.io/{} appsvctest/{}:{}_{}".format(br["outputImageName"], br["stack"], br["version"], tag))
     print("docker tag blimpacr.azurecr.io/{} appsvc/{}:{}_{}".format(br["outputImageName"], br["stack"], br["version"], tag))
-    print("docker push appsvctest/{}:{}-{}".format(br["stack"], br["version"], tag))
+    print("docker push appsvctest/{}:{}_{}".format(br["stack"], br["version"], tag))
     print("docker push appsvc/{}:{}_{}".format(br["stack"], br["version"], tag))
 
     ### LATEST / LTS ###
