@@ -25,5 +25,6 @@ eval $(printenv | awk -F= '{print "export " $1"="$2 }' >> /etc/profile)
 
 eval "$(rbenv init -)"
 rbenv global $RUBY_VERSION
+
 /opt/startup.sh "$@"
 

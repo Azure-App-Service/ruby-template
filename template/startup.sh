@@ -108,9 +108,12 @@ fi
 
 if [ $# -ne 0 ]
   then
-    echo "Executing $@"
-    exec "$@"
-  else
-    echo "defaulting to command: \"bundle exec rails server -e $RAILS_ENV -p $PORT\""
-    exec bundle exec rails server -b 0.0.0.0 -e "$RAILS_ENV" -p "$PORT"
+    echo "Executing custom startup: $@"
+    echo "$@" > /opt/startup/startupCommand
+    STARTUPCOMMAND=$(cat /opt/startup/startupCommand)
+    echo "Running $STARTUPCOMMAND"
+    eval "$STARTUPCOMMAND"
 fi
+
+echo "defaulting to command: \"bundle exec rails server -e $RAILS_ENV -p $PORT\""
+bundle exec rails server -b 0.0.0.0 -e "$RAILS_ENV" -p "$PORT"
