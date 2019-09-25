@@ -99,10 +99,15 @@ ENV WEBSITE_ROLE_INSTANCE_ID localRoleInstance
 ENV WEBSITE_INSTANCE_ID localInstance
 ENV PATH ${PATH}:/home/site/wwwroot
 
-# install libssl1.0.2
+# install libssl1.0.2, and libssl1.1
 RUN wget http://ftp.us.debian.org/debian/pool/main/o/openssl1.0/libssl1.0.2_1.0.2s-1~deb9u1_amd64.deb \
-  && apt-get install dialog \
-  && dpkg -i libssl1.0.2_1.0.2s-1~deb9u1_amd64.deb
+  && dpkg -i libssl1.0.2_1.0.2s-1~deb9u1_amd64.deb \
+  && wget http://http.us.debian.org/debian/pool/main/g/glibc/libc6-udeb_2.29-1_amd64.udeb \
+  && dpkg -i libc6-udeb_2.29-1_amd64.udeb \
+  && wget http://ftp.us.debian.org/debian/pool/main/o/openssl/libcrypto1.1-udeb_1.1.0k-1~deb9u1_amd64.udeb \
+  && dpkg -i --force-overwrite libcrypto1.1-udeb_1.1.0k-1~deb9u1_amd64.udeb \
+  && wget http://ftp.us.debian.org/debian/pool/main/o/openssl/libssl1.1-udeb_1.1.0k-1~deb9u1_amd64.udeb \
+  && dpkg -i --force-overwrite libssl1.1-udeb_1.1.0k-1~deb9u1_amd64.udeb
 
 WORKDIR /home/site/wwwroot
 
