@@ -11,6 +11,7 @@ A P P   S E R V I C E   O N   L I N U X
 Documentation: http://aka.ms/webapp-linux
 Ruby quickstart: https://aka.ms/ruby-qs
 Ruby version $RUBY_VERSION
+Note: Any data outside '/home' is not persisted
 EOL
 cat /etc/motd
 
