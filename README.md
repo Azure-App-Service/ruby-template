@@ -1,3 +1,5 @@
+archived in favour of https://github.com/Azure-App-Service/ImageBuilder
+
 # Azure App Service Linux Ruby image templates
 
 These are the templates used to the Ruby images
